@@ -60,6 +60,7 @@ static struct {
 
 	{ "overload", 	NULL,	OP_OVERLOAD,			{ ARG_LAYER, ARG_DESCRIPTOR } },
 	{ "overloadt", 	NULL,	OP_OVERLOAD_TIMEOUT,		{ ARG_LAYER, ARG_DESCRIPTOR, ARG_TIMEOUT } },
+	{ "overloadtm", NULL, OP_OVERLOAD_TIMEOUT_MACRO, { ARG_LAYER, ARG_MACRO, ARG_DESCRIPTOR} },
 	{ "overloadt2", NULL,	OP_OVERLOAD_TIMEOUT_TAP,	{ ARG_LAYER, ARG_DESCRIPTOR, ARG_TIMEOUT } },
 
 	{ "overloadi",	NULL,	OP_OVERLOAD_IDLE_TIMEOUT, { ARG_DESCRIPTOR, ARG_DESCRIPTOR, ARG_TIMEOUT } },
@@ -757,6 +758,8 @@ static void parse_global_section(struct config *config, struct ini_section *sect
 			config->layer_indicator = atoi(ent->val);
 		else if (!strcmp(ent->key, "overload_tap_timeout"))
 			config->overload_tap_timeout = atoi(ent->val);
+		else if (!strcmp(ent->key, "overloadtm_timeout"))
+      config->overloadtm_timeout = atoi(ent->val);
 		else
 			warn("line %zd: %s is not a valid global option", ent->lnum, ent->key);
 	}
@@ -944,6 +947,8 @@ static void config_init(struct config *config)
 
 	config->macro_timeout = 600;
 	config->macro_repeat_timeout = 50;
+
+	config->overloadtm_timeout = 300;
 }
 
 int config_parse(struct config *config, const char *path)

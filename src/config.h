@@ -12,7 +12,7 @@
 #define MAX_LAYER_NAME_LEN	32
 #define MAX_DESCRIPTOR_ARGS	3
 
-#define MAX_LAYERS		32
+#define MAX_LAYERS		64
 #define MAX_EXP_LEN		512
 
 
@@ -38,6 +38,7 @@ enum op {
 	OP_CLEARM,
 	OP_OVERLOAD,
 	OP_OVERLOAD_TIMEOUT,
+	OP_OVERLOAD_TIMEOUT_MACRO,
 	OP_OVERLOAD_TIMEOUT_TAP,
 	OP_OVERLOAD_IDLE_TIMEOUT,
 	OP_TOGGLE,
@@ -139,6 +140,7 @@ struct config {
 	long oneshot_timeout;
 
 	long overload_tap_timeout;
+	long overloadtm_timeout;
 
 	long chord_interkey_timeout;
 	long chord_hold_timeout;

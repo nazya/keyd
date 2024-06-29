@@ -583,6 +583,29 @@ static long process_descriptor(struct keyboard *kbd, uint8_t code,
 		}
 
 		break;
+	case OP_OVERLOAD_TIMEOUT_MACRO: // New case
+		if (pressed) {
+			uint8_t layer = d->args[0].idx;
+			int macro_idx = d->args[1].idx;
+      struct descriptor *action = &kbd->config.descriptors[d->args[2].idx];
+
+      kbd->pending_key.code = code;
+      kbd->pending_key.behaviour =
+        d->op == OP_OVERLOAD_TIMEOUT_TAP ?
+          PK_UNINTERRUPTIBLE_TAP_ACTION2 :
+          PK_UNINTERRUPTIBLE;
+
+      kbd->pending_key.dl = dl;
+      kbd->pending_key.action1 = *action;
+      kbd->pending_key.action2.op = OP_LAYERM;
+      kbd->pending_key.action2.args[0].idx = layer;
+      kbd->pending_key.action2.args[1].idx = macro_idx;
+      //kbd->pending_key.expire = time+d->args[3].timeout;
+      kbd->pending_key.expire = time+kbd->config.oneshot_timeout;
+
+      schedule_timeout(kbd, kbd->pending_key.expire);
+		}
+    break;
 	case OP_LAYOUT:
 		if (pressed)
 			setlayout(kbd, d->args[0].idx);
