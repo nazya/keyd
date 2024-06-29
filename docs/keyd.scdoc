@@ -75,8 +75,8 @@ section that has one of the following forms:
 ```
 	[ids]
 
-	<vendor id 1>:<product id 1>
-	<vendor id 2>:<product id 2>
+	<id 1 (obtained via keyd monitor)>
+	<id 2>
 	...
 ```
 
@@ -86,8 +86,8 @@ or
 	[ids]
 
 	*
-	-<vendor id 1>:<product id 1>
-	-<vendor id 2>:<product id 2>
+	-<id 1>
+	-<id 2>
 	...
 ```
 
@@ -103,16 +103,17 @@ For example:
 ```
 
 
-Will match all devices which *do not*(2) have the id _0123:4567_, while:
+Will match all keyboards which *do not*(2) have the id _0123:4567_, while:
 
 ```
 	[ids]
+
 	0123:4567
 ```
 
-will exclusively match any devices which do. Note that you can obtain
-the '<vendor id>:<product id>' specifiers from the monitor command (see
-_COMMANDS_).
+will exclusively match any devices which do. Device ids can be obtained from
+the monitor command (see _COMMANDS_). Note that a device id may only be
+listed in a single config file.
 
 Each subsequent section of the file corresponds to a _layer_ (with the exception
 of _[global]_ (see _GLOBALS_).
@@ -120,7 +121,7 @@ of _[global]_ (see _GLOBALS_).
 Config errors will appear in the log output and can be accessed in the usual
 way using your system's service manager (e.g sudo journalctl -eu keyd).
 
-If a vendor/product pair matches more than one device type, the prefix k: may
+If an id matches more than one device type, the prefix k: may
 be used to exclusively match keyboards and the prefix m: may be used to
 exclusively match mice. (E.g m:046d:b01d)
 
@@ -131,6 +132,12 @@ same state. This is useful for linking separate input devices together
 Note 2: The wildcard will only match devices which keyd identifies as keyboards.
 keyd is also capable of *managing mice* (e.g to facilitate clearing
 of oneshot modifiers on click), but their ids must be explicitly listed.
+
+Note 3: *Mouse support is currently experimental*, and is mostly confined to
+traditional mice (e.g touchpads). Adding some mice to
+your ids section may break your pointer. *It may also be necessary
+to explicitly blacklist mice which are misidentified as keyboards
+(e.g if you find your moused misbehaving).*
 
 ## Layers
 
