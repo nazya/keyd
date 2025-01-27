@@ -12,7 +12,7 @@
 #define MAX_LAYER_NAME_LEN	32
 #define MAX_DESCRIPTOR_ARGS	3
 
-#define MAX_LAYERS		32
+#define MAX_LAYERS		64
 #define MAX_EXP_LEN		512
 
 
@@ -114,7 +114,7 @@ struct config {
 
 	/* Auxiliary descriptors used by layer bindings. */
 	struct descriptor descriptors[256];
-	struct macro macros[256];
+	struct macro macros[512];
 	struct command commands[64];
 	char aliases[256][32];
 
